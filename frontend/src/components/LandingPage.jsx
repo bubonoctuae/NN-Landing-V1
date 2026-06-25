@@ -33,12 +33,13 @@ const LandingPage = () => {
           aria-hidden="true"
           style={{ backgroundImage: `url(${BG})` }}
         />
-        {/* Subtle drifting mist layers — sit ABOVE the bg but BELOW the content */}
-        <div className="mist-layer mist-a" aria-hidden="true" />
-        <div className="mist-layer mist-b" aria-hidden="true" />
+        {/* Smooth, seamless mist — 3 layers offset by 1/3 cycle */}
+        <div className="mist mist-a mist-1" aria-hidden="true" />
+        <div className="mist mist-b mist-2" aria-hidden="true" />
+        <div className="mist mist-c mist-3" aria-hidden="true" />
 
-        <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-col items-center px-6 pt-16 pb-12 text-center sm:pt-20 md:pt-24 lg:pt-28">
-          {/* Sigil — enlarged ~60%, gold-matched, slow breathing glow */}
+        <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-col items-center px-6 pt-8 pb-12 text-center sm:pt-10 md:pt-12 lg:pt-14">
+          {/* Sigil — 25% smaller than before, sits a bit higher */}
           <div
             className="rise"
             style={{ animationDelay: "120ms" }}
@@ -48,36 +49,42 @@ const LandingPage = () => {
               src={SIGIL}
               alt="Nocturnal Nine sigil — Lux Ex Nocte"
               draggable={false}
-              className="sigil-breathe block w-[290px] sm:w-[352px] md:w-[416px] lg:w-[464px] select-none"
+              className="sigil-breathe block w-[218px] sm:w-[264px] md:w-[312px] lg:w-[348px] select-none"
             />
           </div>
 
-          {/* "The Order Of" eyebrow — same visual width as wordmark, smaller size */}
-          <p
-            className="font-body kerning-widest rise mt-8 w-full text-center text-[0.78rem] uppercase text-gold-light/80 sm:text-[0.95rem] md:text-[1.1rem] lg:text-[1.25rem]"
-            style={{
-              animationDelay: "420ms",
-              letterSpacing: "0.62em",
-              paddingLeft: "0.62em" /* compensate trailing tracking so it stays centred */,
-              textShadow: "0 1px 8px rgba(0,0,0,0.95)",
-            }}
-            data-testid="hero-eyebrow"
+          {/* Eyebrow + Wordmark wrapper — eyebrow stretches to wordmark width */}
+          <div
+            className="rise mt-3 inline-flex flex-col items-stretch"
+            style={{ animationDelay: "560ms" }}
           >
-            The Order Of
-          </p>
+            <div
+              className="font-body uppercase text-gold-light/85 flex w-full items-center justify-between"
+              data-testid="hero-eyebrow"
+              style={{
+                fontSize: "clamp(0.78rem, 1.35vw, 1.25rem)",
+                marginBottom: "-0.05em",
+                textShadow: "0 1px 8px rgba(0,0,0,0.95)",
+              }}
+            >
+              <span style={{ letterSpacing: "0.45em", paddingLeft: "0.45em" }}>THE</span>
+              <span aria-hidden="true" style={{ color: "rgba(200,166,106,0.55)", fontSize: "0.7em" }}>✦</span>
+              <span style={{ letterSpacing: "0.45em", paddingLeft: "0.45em" }}>ORDER</span>
+              <span aria-hidden="true" style={{ color: "rgba(200,166,106,0.55)", fontSize: "0.7em" }}>✦</span>
+              <span style={{ letterSpacing: "0.45em", paddingLeft: "0.45em" }}>OF</span>
+            </div>
 
-          {/* Wordmark — blackletter calligraphy (UnifrakturCook ≈ Medici Text) */}
-          <h1
-            className="font-display gold-foil rise mt-3 text-[2.8rem] leading-[1.02] sm:text-[3.8rem] md:text-[5rem] lg:text-[6rem]"
-            style={{
-              animationDelay: "620ms",
-              filter:
-                "drop-shadow(0 2px 18px rgba(200,166,106,0.18)) drop-shadow(0 1px 2px rgba(0,0,0,0.85))",
-            }}
-            data-testid="hero-title"
-          >
-            Nocturnal Nine
-          </h1>
+            <h1
+              className="font-display distressed gold-foil text-[2.8rem] leading-[1.02] sm:text-[3.8rem] md:text-[5rem] lg:text-[6rem]"
+              style={{
+                filter:
+                  "drop-shadow(0 2px 18px rgba(200,166,106,0.18)) drop-shadow(0 1px 2px rgba(0,0,0,0.85))",
+              }}
+              data-testid="hero-title"
+            >
+              Nocturnal Nine
+            </h1>
+          </div>
 
           {/* Diamond divider beneath wordmark */}
           <div
@@ -164,7 +171,7 @@ const LandingPage = () => {
 
             {/* Heading */}
             <h3
-              className="font-display gold-foil mt-6 text-center text-[2rem] sm:text-[2.4rem] md:text-[2.8rem]"
+              className="font-display distressed gold-foil mt-6 text-center text-[2rem] sm:text-[2.4rem] md:text-[2.8rem]"
               data-testid="email-heading"
               style={{
                 filter:
