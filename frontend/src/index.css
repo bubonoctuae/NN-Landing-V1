@@ -5,7 +5,8 @@
 :root {
   --ink-950: #0B0B0D;
   --ink-900: #141416;
-  --ink-800: #2B2925;
+  --ink-800: #1c1a18;
+  --ink-700: #2B2925;
   --gold: #C8A66A;
   --gold-light: #E6D7A6;
   --gold-dark: #8a7048;
@@ -14,6 +15,7 @@
 * {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
 }
 
 html, body, #root {
@@ -22,14 +24,12 @@ html, body, #root {
   margin: 0;
   padding: 0;
   min-height: 100%;
-  scroll-behavior: smooth;
 }
 
 body {
   font-family: "Cinzel", serif;
   font-weight: 400;
   letter-spacing: 0.02em;
-  background-color: #000;
   overflow-x: hidden;
 }
 
@@ -38,59 +38,30 @@ body {
   color: #fff;
 }
 
-/* Subtle filmic grain overlay applied to the whole page */
-.grain::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 60;
-  opacity: 0.06;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='1'/></svg>");
-}
-
-/* Reusable text utilities */
-.text-display {
-  font-family: "UnifrakturCook", serif;
-  font-weight: 700;
+/* ============ Typography ============ */
+.font-display {
+  /* Medici Text Regular is a licensed Adobe font; IM Fell English is the
+     closest free webfont — antique, renaissance-printed aesthetic. */
+  font-family: "IM Fell English", "Cormorant Garamond", serif;
+  font-weight: 400;
   letter-spacing: 0.005em;
 }
 
-.text-body {
+.font-body {
   font-family: "Cinzel", serif;
 }
 
-.kerning-wide {
-  letter-spacing: 0.32em;
-}
+.kerning-wide   { letter-spacing: 0.32em; }
+.kerning-wider  { letter-spacing: 0.45em; }
+.kerning-widest { letter-spacing: 0.55em; }
 
-.kerning-wider {
-  letter-spacing: 0.45em;
-}
-
-/* Worn / aged texture overlay (multiply) for headlines */
-.aged {
-  position: relative;
-  display: inline-block;
-}
-.aged::before {
-  content: "";
-  position: absolute;
-  inset: -4% -2%;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>");
-  mix-blend-mode: multiply;
-  opacity: 0.55;
-  pointer-events: none;
-}
-
-/* Gold gradient text mimicking foil */
+/* Gold gradient text (foil) */
 .gold-foil {
   background: linear-gradient(
     180deg,
     #E6D7A6 0%,
     #C8A66A 45%,
-    #8a7048 80%,
+    #8a7048 78%,
     #C8A66A 100%
   );
   -webkit-background-clip: text;
@@ -99,7 +70,43 @@ body {
   color: transparent;
 }
 
-/* Slow ambient breathing for moonlight feel */
+/* ============ Global paper texture overlay ============ */
+.paper-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.10;
+  mix-blend-mode: overlay;
+}
+
+/* ============ Hero background ============ */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+}
+.hero-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0,0,0,0.30) 0%,
+    rgba(0,0,0,0.05) 28%,
+    rgba(0,0,0,0.20) 60%,
+    rgba(0,0,0,0.65) 82%,
+    rgba(0,0,0,0.92) 95%,
+    #000 100%
+  );
+  pointer-events: none;
+}
+
+/* Slow ambient breathing for atmospheric depth */
 @keyframes breath {
   0%, 100% { opacity: 0.96; }
   50% { opacity: 1; }
@@ -115,80 +122,99 @@ body {
 }
 .rise {
   opacity: 0;
-  animation: rise 1400ms cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+  animation: rise 1500ms cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
 }
 
-/* Email input focus ring */
-.input-ritual {
-  background: transparent;
-  border: 1px solid rgba(200, 166, 106, 0.45);
-  color: var(--gold-light);
-  letter-spacing: 0.18em;
-  font-family: "Cinzel", serif;
-  text-transform: lowercase;
-  transition: border-color 400ms ease, box-shadow 400ms ease, background-color 400ms ease;
-}
-.input-ritual::placeholder {
-  color: rgba(230, 215, 166, 0.35);
-  text-transform: lowercase;
-  letter-spacing: 0.18em;
-}
-.input-ritual:focus {
-  outline: none;
-  border-color: rgba(200, 166, 106, 0.9);
-  box-shadow: 0 0 0 1px rgba(200, 166, 106, 0.35), 0 0 28px -10px rgba(200, 166, 106, 0.5);
-  background: rgba(20, 20, 22, 0.4);
-}
-
-.btn-subscribe {
-  background: linear-gradient(180deg, #E6D7A6 0%, #C8A66A 100%);
-  color: #141416;
-  letter-spacing: 0.32em;
-  font-family: "Cinzel", serif;
-  font-weight: 600;
-  transition: transform 320ms ease, filter 320ms ease, box-shadow 320ms ease;
-}
-.btn-subscribe:hover {
-  filter: brightness(1.08);
-  box-shadow: 0 0 30px -8px rgba(200, 166, 106, 0.55);
-}
-.btn-subscribe:active {
-  transform: translateY(1px);
-}
-
-/* Decorative ornamental frame corners */
-.ornate-frame {
+/* ============ Mailing list box ============ */
+.ml-frame {
   position: relative;
-  border: 1px solid rgba(200, 166, 106, 0.35);
+  background: rgba(11, 11, 13, 0.78);
+  border: 1px solid rgba(200, 166, 106, 0.45);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
 }
-.ornate-frame::before,
-.ornate-frame::after,
-.ornate-frame > .corner-tl,
-.ornate-frame > .corner-tr,
-.ornate-frame > .corner-bl,
-.ornate-frame > .corner-br {
+/* Inner thin frame */
+.ml-frame::before {
   content: "";
+  position: absolute;
+  inset: 10px;
+  border: 1px solid rgba(200, 166, 106, 0.25);
+  pointer-events: none;
+}
+/* Corner diamonds */
+.ml-corner {
   position: absolute;
   width: 14px;
   height: 14px;
-  border: 1px solid rgba(200, 166, 106, 0.55);
+  border: 1px solid rgba(200, 166, 106, 0.7);
   background: #000;
   transform: rotate(45deg);
+  z-index: 2;
 }
-.ornate-frame::before { top: -7px; left: -7px; }
-.ornate-frame::after  { top: -7px; right: -7px; }
-.ornate-frame > .corner-bl { bottom: -7px; left: -7px; }
-.ornate-frame > .corner-br { bottom: -7px; right: -7px; }
+.ml-corner.tl { top: -7px; left: -7px; }
+.ml-corner.tr { top: -7px; right: -7px; }
+.ml-corner.bl { bottom: -7px; left: -7px; }
+.ml-corner.br { bottom: -7px; right: -7px; }
 
-/* Hairline divider line */
-.hairline {
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    rgba(200,166,106,0) 0%,
-    rgba(200,166,106,0.55) 30%,
-    rgba(230,215,166,0.85) 50%,
-    rgba(200,166,106,0.55) 70%,
-    rgba(200,166,106,0) 100%
-  );
+/* ============ Email input + join button ============ */
+.input-ritual {
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(200, 166, 106, 0.45);
+  color: var(--gold-light);
+  font-family: "Cinzel", serif;
+  letter-spacing: 0.18em;
+  text-transform: lowercase;
+  transition:
+    border-color 320ms ease,
+    box-shadow 320ms ease,
+    background-color 320ms ease;
+}
+.input-ritual::placeholder {
+  color: rgba(230, 215, 166, 0.42);
+  letter-spacing: 0.18em;
+  text-transform: lowercase;
+  font-family: "Cinzel", serif;
+}
+.input-ritual:focus {
+  outline: none;
+  border-color: rgba(200, 166, 106, 0.95);
+  box-shadow:
+    0 0 0 1px rgba(200, 166, 106, 0.30),
+    0 0 28px -10px rgba(200, 166, 106, 0.55);
+  background: rgba(20, 20, 22, 0.65);
+}
+
+.btn-join {
+  background: linear-gradient(180deg, #E6D7A6 0%, #C8A66A 100%);
+  color: #141416;
+  font-family: "Cinzel", serif;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  border: 1px solid rgba(200, 166, 106, 0.85);
+  transition:
+    transform 280ms ease,
+    filter 280ms ease,
+    box-shadow 280ms ease;
+}
+.btn-join:hover {
+  filter: brightness(1.10);
+  box-shadow: 0 0 30px -8px rgba(200, 166, 106, 0.55);
+}
+.btn-join:active { transform: translateY(1px); }
+
+/* ============ Subtle decorative animations ============ */
+@keyframes glow-pulse {
+  0%, 100% { filter: drop-shadow(0 0 18px rgba(200,166,106,0.15)); }
+  50%      { filter: drop-shadow(0 0 28px rgba(200,166,106,0.30)); }
+}
+.glow-pulse { animation: glow-pulse 6s ease-in-out infinite; }
+
+/* ============ Social icons hover ============ */
+.social-ico {
+  color: var(--gold);
+  transition: color 320ms ease, transform 320ms ease;
+}
+.social-ico:hover {
+  color: var(--gold-light);
+  transform: translateY(-2px);
 }

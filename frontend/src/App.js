@@ -3,8 +3,13 @@ import LandingPage from "./components/LandingPage";
 
 function App() {
   return (
-    <div className="grain min-h-screen bg-black text-gold-light antialiased">
+    <div className="relative min-h-screen w-full bg-black">
       <LandingPage />
+      <div
+        className="paper-overlay"
+        aria-hidden="true"
+        style={{ backgroundImage: "url(/assets/paper-texture.jpg)" }}
+      />
     </div>
   );
 }
