@@ -1,0 +1,194 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ink-950: #0B0B0D;
+  --ink-900: #141416;
+  --ink-800: #2B2925;
+  --gold: #C8A66A;
+  --gold-light: #E6D7A6;
+  --gold-dark: #8a7048;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html, body, #root {
+  background: #000;
+  color: var(--gold-light);
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Cinzel", serif;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  background-color: #000;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgba(200, 166, 106, 0.35);
+  color: #fff;
+}
+
+/* Subtle filmic grain overlay applied to the whole page */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='1'/></svg>");
+}
+
+/* Reusable text utilities */
+.text-display {
+  font-family: "UnifrakturCook", serif;
+  font-weight: 700;
+  letter-spacing: 0.005em;
+}
+
+.text-body {
+  font-family: "Cinzel", serif;
+}
+
+.kerning-wide {
+  letter-spacing: 0.32em;
+}
+
+.kerning-wider {
+  letter-spacing: 0.45em;
+}
+
+/* Worn / aged texture overlay (multiply) for headlines */
+.aged {
+  position: relative;
+  display: inline-block;
+}
+.aged::before {
+  content: "";
+  position: absolute;
+  inset: -4% -2%;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>");
+  mix-blend-mode: multiply;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+/* Gold gradient text mimicking foil */
+.gold-foil {
+  background: linear-gradient(
+    180deg,
+    #E6D7A6 0%,
+    #C8A66A 45%,
+    #8a7048 80%,
+    #C8A66A 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* Slow ambient breathing for moonlight feel */
+@keyframes breath {
+  0%, 100% { opacity: 0.96; }
+  50% { opacity: 1; }
+}
+.breathing {
+  animation: breath 9s ease-in-out infinite;
+}
+
+/* Staggered entrance */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.rise {
+  opacity: 0;
+  animation: rise 1400ms cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+}
+
+/* Email input focus ring */
+.input-ritual {
+  background: transparent;
+  border: 1px solid rgba(200, 166, 106, 0.45);
+  color: var(--gold-light);
+  letter-spacing: 0.18em;
+  font-family: "Cinzel", serif;
+  text-transform: lowercase;
+  transition: border-color 400ms ease, box-shadow 400ms ease, background-color 400ms ease;
+}
+.input-ritual::placeholder {
+  color: rgba(230, 215, 166, 0.35);
+  text-transform: lowercase;
+  letter-spacing: 0.18em;
+}
+.input-ritual:focus {
+  outline: none;
+  border-color: rgba(200, 166, 106, 0.9);
+  box-shadow: 0 0 0 1px rgba(200, 166, 106, 0.35), 0 0 28px -10px rgba(200, 166, 106, 0.5);
+  background: rgba(20, 20, 22, 0.4);
+}
+
+.btn-subscribe {
+  background: linear-gradient(180deg, #E6D7A6 0%, #C8A66A 100%);
+  color: #141416;
+  letter-spacing: 0.32em;
+  font-family: "Cinzel", serif;
+  font-weight: 600;
+  transition: transform 320ms ease, filter 320ms ease, box-shadow 320ms ease;
+}
+.btn-subscribe:hover {
+  filter: brightness(1.08);
+  box-shadow: 0 0 30px -8px rgba(200, 166, 106, 0.55);
+}
+.btn-subscribe:active {
+  transform: translateY(1px);
+}
+
+/* Decorative ornamental frame corners */
+.ornate-frame {
+  position: relative;
+  border: 1px solid rgba(200, 166, 106, 0.35);
+}
+.ornate-frame::before,
+.ornate-frame::after,
+.ornate-frame > .corner-tl,
+.ornate-frame > .corner-tr,
+.ornate-frame > .corner-bl,
+.ornate-frame > .corner-br {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 1px solid rgba(200, 166, 106, 0.55);
+  background: #000;
+  transform: rotate(45deg);
+}
+.ornate-frame::before { top: -7px; left: -7px; }
+.ornate-frame::after  { top: -7px; right: -7px; }
+.ornate-frame > .corner-bl { bottom: -7px; left: -7px; }
+.ornate-frame > .corner-br { bottom: -7px; right: -7px; }
+
+/* Hairline divider line */
+.hairline {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(200,166,106,0) 0%,
+    rgba(200,166,106,0.55) 30%,
+    rgba(230,215,166,0.85) 50%,
+    rgba(200,166,106,0.55) 70%,
+    rgba(200,166,106,0) 100%
+  );
+}
