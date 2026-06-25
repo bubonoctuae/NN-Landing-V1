@@ -33,9 +33,12 @@ const LandingPage = () => {
           aria-hidden="true"
           style={{ backgroundImage: `url(${BG})` }}
         />
+        {/* Subtle drifting mist layers — sit ABOVE the bg but BELOW the content */}
+        <div className="mist-layer mist-a" aria-hidden="true" />
+        <div className="mist-layer mist-b" aria-hidden="true" />
 
         <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-col items-center px-6 pt-16 pb-12 text-center sm:pt-20 md:pt-24 lg:pt-28">
-          {/* Sigil */}
+          {/* Sigil — enlarged ~60%, gold-matched, slow breathing glow */}
           <div
             className="rise"
             style={{ animationDelay: "120ms" }}
@@ -45,19 +48,29 @@ const LandingPage = () => {
               src={SIGIL}
               alt="Nocturnal Nine sigil — Lux Ex Nocte"
               draggable={false}
-              className="glow-pulse block w-[180px] sm:w-[220px] md:w-[260px] lg:w-[290px] select-none"
-              style={{
-                filter:
-                  "drop-shadow(0 2px 14px rgba(0,0,0,0.85)) drop-shadow(0 0 30px rgba(200,166,106,0.12))",
-              }}
+              className="sigil-breathe block w-[290px] sm:w-[352px] md:w-[416px] lg:w-[464px] select-none"
             />
           </div>
 
-          {/* Wordmark */}
-          <h1
-            className="font-display gold-foil rise mt-6 text-[2.6rem] leading-[1.02] sm:text-[3.6rem] md:text-[4.6rem] lg:text-[5.4rem]"
+          {/* "The Order Of" eyebrow — same visual width as wordmark, smaller size */}
+          <p
+            className="font-body kerning-widest rise mt-8 w-full text-center text-[0.78rem] uppercase text-gold-light/80 sm:text-[0.95rem] md:text-[1.1rem] lg:text-[1.25rem]"
             style={{
-              animationDelay: "560ms",
+              animationDelay: "420ms",
+              letterSpacing: "0.62em",
+              paddingLeft: "0.62em" /* compensate trailing tracking so it stays centred */,
+              textShadow: "0 1px 8px rgba(0,0,0,0.95)",
+            }}
+            data-testid="hero-eyebrow"
+          >
+            The Order Of
+          </p>
+
+          {/* Wordmark — blackletter calligraphy (UnifrakturCook ≈ Medici Text) */}
+          <h1
+            className="font-display gold-foil rise mt-3 text-[2.8rem] leading-[1.02] sm:text-[3.8rem] md:text-[5rem] lg:text-[6rem]"
+            style={{
+              animationDelay: "620ms",
               filter:
                 "drop-shadow(0 2px 18px rgba(200,166,106,0.18)) drop-shadow(0 1px 2px rgba(0,0,0,0.85))",
             }}

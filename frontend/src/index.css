@@ -40,11 +40,18 @@ body {
 
 /* ============ Typography ============ */
 .font-display {
-  /* Medici Text Regular is a licensed Adobe font; IM Fell English is the
-     closest free webfont — antique, renaissance-printed aesthetic. */
-  font-family: "IM Fell English", "Cormorant Garamond", serif;
-  font-weight: 400;
+  /* Medici Text Regular is a licensed Adobe font; UnifrakturCook is the
+     closest free 16th-c. calligraphy / blackletter substitute. */
+  font-family: "UnifrakturCook", "Pirata One", "Cinzel", serif;
+  font-weight: 700;
   letter-spacing: 0.005em;
+}
+
+.font-quote {
+  /* Used only for the italic footer quote */
+  font-family: "Pirata One", "Cinzel", serif;
+  font-style: italic;
+  font-weight: 400;
 }
 
 .font-body {
@@ -208,6 +215,57 @@ body {
   50%      { filter: drop-shadow(0 0 28px rgba(200,166,106,0.30)); }
 }
 .glow-pulse { animation: glow-pulse 6s ease-in-out infinite; }
+
+/* Long, slow breathing glow for the sigil — paired with gold colour match */
+@keyframes sigil-breathe {
+  0%, 100% {
+    filter:
+      brightness(1.38) saturate(1.22) contrast(1.04)
+      drop-shadow(0 2px 14px rgba(0,0,0,0.85))
+      drop-shadow(0 0 22px rgba(200,166,106,0.16));
+  }
+  50% {
+    filter:
+      brightness(1.50) saturate(1.32) contrast(1.05)
+      drop-shadow(0 2px 14px rgba(0,0,0,0.85))
+      drop-shadow(0 0 42px rgba(230,215,166,0.32));
+  }
+}
+.sigil-breathe { animation: sigil-breathe 11s ease-in-out infinite; }
+
+/* ============ Drifting mist / smoke layer (very subtle) ============ */
+.mist-layer {
+  position: absolute;
+  inset: -8% -25%;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.55;
+  filter: blur(42px);
+  mix-blend-mode: screen;
+}
+.mist-a {
+  background-image:
+    radial-gradient(ellipse 38% 22% at 20% 38%, rgba(255,255,255,0.075), transparent 65%),
+    radial-gradient(ellipse 30% 18% at 55% 45%, rgba(220,220,235,0.06), transparent 60%),
+    radial-gradient(ellipse 42% 24% at 82% 52%, rgba(255,255,255,0.05), transparent 65%);
+  animation: mist-drift-a 72s linear infinite;
+}
+.mist-b {
+  background-image:
+    radial-gradient(ellipse 30% 18% at 28% 60%, rgba(200,200,220,0.055), transparent 60%),
+    radial-gradient(ellipse 36% 20% at 65% 35%, rgba(255,255,255,0.045), transparent 65%),
+    radial-gradient(ellipse 28% 16% at 90% 70%, rgba(220,220,240,0.04), transparent 60%);
+  animation: mist-drift-b 110s linear infinite;
+  opacity: 0.45;
+}
+@keyframes mist-drift-a {
+  from { transform: translateX(15%); }
+  to   { transform: translateX(-35%); }
+}
+@keyframes mist-drift-b {
+  from { transform: translateX(25%) translateY(-2%); }
+  to   { transform: translateX(-45%) translateY(2%); }
+}
 
 /* ============ Social icons hover ============ */
 .social-ico {
