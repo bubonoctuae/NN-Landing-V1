@@ -279,11 +279,62 @@ body {
 .mist-1 { animation: mist-pass 48s linear infinite; animation-delay: 0s; }
 .mist-2 { animation: mist-pass 48s linear infinite; animation-delay: -16s; }
 .mist-3 { animation: mist-pass 48s linear infinite; animation-delay: -32s; }
-@keyframes mist-pass {
-  0%   { opacity: 0;    transform: translate3d(30%, -1%, 0); }
+/* Foreground mist — sits ABOVE the hero content so it drifts in front of
+   the moon and the upper part of the sigil. Very subtle. */
+.mist-front {
+  position: absolute;
+  inset: -8% -25%;
+  pointer-events: none;
+  z-index: 20;
+  filter: blur(38px);
+  mix-blend-mode: screen;
+  opacity: 0;
+  will-change: opacity, transform;
+}
+.mist-front-a {
+  background-image:
+    radial-gradient(ellipse 26% 14% at 75% 18%, rgba(255,255,255,0.16), transparent 60%),
+    radial-gradient(ellipse 32% 16% at 50% 22%, rgba(220,225,240,0.10), transparent 65%);
+  animation: mist-pass 56s linear infinite;
+}
+.mist-front-b {
+  background-image:
+    radial-gradient(ellipse 22% 12% at 88% 12%, rgba(255,255,255,0.14), transparent 60%),
+    radial-gradient(ellipse 28% 14% at 40% 26%, rgba(220,225,240,0.08), transparent 65%);
+  animation: mist-pass 56s linear infinite;
+  animation-delay: -28s;
+}
+
+/* Mysterious / darker mist for the lower (mailing-list) section */
+.mist-dark {
+  position: absolute;
+  inset: -10% -30%;
+  pointer-events: none;
+  z-index: 1;
+  filter: blur(54px);
+  mix-blend-mode: screen;
+  opacity: 0;
+  will-change: opacity, transform;
+}
+.mist-dark-a {
+  background-image:
+    radial-gradient(ellipse 40% 28% at 20% 50%, rgba(45,40,55,0.55), transparent 65%),
+    radial-gradient(ellipse 36% 24% at 60% 45%, rgba(70,60,80,0.40), transparent 60%),
+    radial-gradient(ellipse 32% 22% at 88% 55%, rgba(50,45,60,0.50), transparent 65%);
+  animation: mist-pass-dark 64s linear infinite;
+}
+.mist-dark-b {
+  background-image:
+    radial-gradient(ellipse 38% 24% at 30% 65%, rgba(60,55,70,0.45), transparent 60%),
+    radial-gradient(ellipse 42% 26% at 72% 38%, rgba(40,35,50,0.55), transparent 65%);
+  animation: mist-pass-dark 64s linear infinite;
+  animation-delay: -32s;
+}
+@keyframes mist-pass-dark {
+  0%   { opacity: 0;    transform: translate3d(28%, -1%, 0); }
   18%  { opacity: 1;    }
   82%  { opacity: 1;    }
-  100% { opacity: 0;    transform: translate3d(-55%, 1%, 0); }
+  100% { opacity: 0;    transform: translate3d(-50%, 1%, 0); }
 }
 
 /* ============ Social icons hover ============ */

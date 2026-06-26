@@ -37,6 +37,9 @@ const LandingPage = () => {
         <div className="mist mist-a mist-1" aria-hidden="true" />
         <div className="mist mist-b mist-2" aria-hidden="true" />
         <div className="mist mist-c mist-3" aria-hidden="true" />
+        {/* Foreground mist — passes IN FRONT of moon and top of sigil */}
+        <div className="mist-front mist-front-a" aria-hidden="true" />
+        <div className="mist-front mist-front-b" aria-hidden="true" />
 
         <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-col items-center px-6 pt-8 pb-12 text-center sm:pt-10 md:pt-12 lg:pt-14">
           {/* Sigil — 25% smaller than before, sits a bit higher */}
@@ -53,9 +56,9 @@ const LandingPage = () => {
             />
           </div>
 
-          {/* Eyebrow + Wordmark wrapper — eyebrow stretches to wordmark width */}
+          {/* Eyebrow + Wordmark wrapper */}
           <div
-            className="rise mt-3 inline-flex flex-col items-stretch"
+            className="rise mt-10 inline-flex flex-col items-stretch sm:mt-12 md:mt-14"
             style={{ animationDelay: "560ms" }}
           >
             <div
@@ -63,7 +66,7 @@ const LandingPage = () => {
               data-testid="hero-eyebrow"
               style={{
                 fontSize: "clamp(0.78rem, 1.35vw, 1.25rem)",
-                marginBottom: "-0.05em",
+                marginBottom: "0.5em",
                 textShadow: "0 1px 8px rgba(0,0,0,0.95)",
               }}
             >
@@ -74,16 +77,18 @@ const LandingPage = () => {
               <span style={{ letterSpacing: "0.45em", paddingLeft: "0.45em" }}>OF</span>
             </div>
 
-            <h1
-              className="font-display distressed gold-foil text-[2.8rem] leading-[1.02] sm:text-[3.8rem] md:text-[5rem] lg:text-[6rem]"
+            {/* Wordmark as image (provided distressed blackletter) */}
+            <img
+              src="/assets/wordmark-img.png"
+              alt="Nocturnal Nine"
+              draggable={false}
+              data-testid="hero-title"
+              className="block h-auto w-[460px] sm:w-[620px] md:w-[780px] lg:w-[900px] select-none"
               style={{
                 filter:
-                  "drop-shadow(0 2px 18px rgba(200,166,106,0.18)) drop-shadow(0 1px 2px rgba(0,0,0,0.85))",
+                  "brightness(1.18) saturate(1.15) contrast(1.05) drop-shadow(0 2px 18px rgba(200,166,106,0.18)) drop-shadow(0 1px 2px rgba(0,0,0,0.85))",
               }}
-              data-testid="hero-title"
-            >
-              Nocturnal Nine
-            </h1>
+            />
           </div>
 
           {/* Diamond divider beneath wordmark */}
@@ -149,10 +154,14 @@ const LandingPage = () => {
 
       {/* ============== MAILING LIST ============== */}
       <section
-        className="relative w-full bg-black px-6 pb-32 pt-2 sm:pb-40"
+        className="relative w-full overflow-hidden bg-black px-6 pb-32 pt-2 sm:pb-40"
         data-testid="email-section"
+        style={{ isolation: "isolate" }}
       >
-        <div className="mx-auto w-full max-w-2xl">
+        {/* Mysterious darker mist drifting behind the mailing list */}
+        <div className="mist-dark mist-dark-a" aria-hidden="true" />
+        <div className="mist-dark mist-dark-b" aria-hidden="true" />
+        <div className="relative z-10 mx-auto w-full max-w-2xl">
           <div className="ml-frame relative px-6 py-12 sm:px-12 sm:py-14 md:px-16 md:py-16">
             <span className="ml-corner tl" />
             <span className="ml-corner tr" />
@@ -255,16 +264,20 @@ const LandingPage = () => {
         data-testid="footer-section"
       >
         <div className="mx-auto flex w-full max-w-3xl flex-col items-center text-center">
-          {/* Quote */}
-          <p
-            className="font-display italic text-gold-light/90 text-[1.05rem] leading-[1.7] sm:text-[1.2rem] md:text-[1.35rem]"
-            data-testid="footer-quote"
-            style={{ textShadow: "0 1px 8px rgba(0,0,0,0.9)" }}
-          >
-            &ldquo;In the stillness of the night,
-            <br />
-            we remember what the world has forgotten.&rdquo;
-          </p>
+          {/* Quote with sparkles on each side (per reference) */}
+          <div className="flex items-center justify-center gap-5 sm:gap-7" data-testid="footer-quote-row">
+            <span aria-hidden="true" style={{ color: "rgba(200,166,106,0.7)", fontSize: "1.4rem" }}>✦</span>
+            <p
+              className="font-display italic text-gold-light/90 text-[1.05rem] leading-[1.7] sm:text-[1.2rem] md:text-[1.35rem]"
+              data-testid="footer-quote"
+              style={{ textShadow: "0 1px 8px rgba(0,0,0,0.9)" }}
+            >
+              &ldquo;In the stillness of the night,
+              <br />
+              we remember what the world has forgotten.&rdquo;
+            </p>
+            <span aria-hidden="true" style={{ color: "rgba(200,166,106,0.7)", fontSize: "1.4rem" }}>✦</span>
+          </div>
 
           {/* Small divider */}
           <div className="mt-8 flex justify-center">
