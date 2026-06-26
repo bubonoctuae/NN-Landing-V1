@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Instagram, Twitter, Mail } from "lucide-react";
 
 const BG       = "/assets/background.jpg";
@@ -7,10 +7,13 @@ const DIVIDER1 = "/assets/divider-1.png";  // diamond
 const DIVIDER2 = "/assets/divider-2.png";  // ornate fleuron
 const DIVIDER3 = "/assets/divider-3.png";  // small simple
 const COMPASS  = "/assets/compass.png";
+const WORDMARK = "/assets/wordmark-img.png";
 
 const LandingPage = () => {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [videoOpen, setVideoOpen] = useState(false);
+  const videoRef = useRef(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -19,6 +22,29 @@ const LandingPage = () => {
     setEmail("");
     setTimeout(() => setSubmitted(false), 4500);
   };
+
+  // Lock body + auto-play after delay when modal opens
+  useEffect(() => {
+    if (videoOpen) {
+      document.body.classList.add("modal-open");
+      const t = setTimeout(() => {
+        const v = videoRef.current;
+        if (v) v.play().catch(() => {});
+      }, 2200);
+      return () => {
+        clearTimeout(t);
+        document.body.classList.remove("modal-open");
+      };
+    }
+  }, [videoOpen]);
+
+  // ESC closes modal
+  useEffect(() => {
+    if (!videoOpen) return;
+    const onKey = (e) => { if (e.key === "Escape") setVideoOpen(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [videoOpen]);
 
   return (
     <main className="relative w-full bg-black text-gold-light" data-testid="landing-root">
@@ -33,18 +59,16 @@ const LandingPage = () => {
           aria-hidden="true"
           style={{ backgroundImage: `url(${BG})` }}
         />
-        {/* Smooth, seamless mist — 3 layers offset by 1/3 cycle */}
         <div className="mist mist-a mist-1" aria-hidden="true" />
         <div className="mist mist-b mist-2" aria-hidden="true" />
         <div className="mist mist-c mist-3" aria-hidden="true" />
-        {/* Foreground mist — passes IN FRONT of moon and top of sigil */}
         <div className="mist-front mist-front-a" aria-hidden="true" />
         <div className="mist-front mist-front-b" aria-hidden="true" />
 
-        <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-col items-center px-6 pt-8 pb-12 text-center sm:pt-10 md:pt-12 lg:pt-14">
-          {/* Sigil — 25% smaller than before, sits a bit higher */}
+        <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-col items-center px-6 pt-6 pb-8 text-center sm:pt-8 md:pt-10 lg:pt-12">
+          {/* Sigil + clickable eye button */}
           <div
-            className="rise"
+            className="rise relative"
             style={{ animationDelay: "120ms" }}
             data-testid="hero-sigil"
           >
@@ -54,78 +78,93 @@ const LandingPage = () => {
               draggable={false}
               className="sigil-breathe block w-[218px] sm:w-[264px] md:w-[312px] lg:w-[348px] select-none"
             />
-          </div>
-
-          {/* Eyebrow + Wordmark wrapper */}
-          <div
-            className="rise mt-10 inline-flex flex-col items-stretch sm:mt-12 md:mt-14"
-            style={{ animationDelay: "560ms" }}
-          >
-            <div
-              className="font-body uppercase text-gold-light/85 flex w-full items-center justify-between"
-              data-testid="hero-eyebrow"
+            {/* Eye area — clickable, glows on hover */}
+            <button
+              type="button"
+              aria-label="Open the inner sight"
+              data-testid="eye-button"
+              className="eye-button"
+              onClick={() => setVideoOpen(true)}
               style={{
-                fontSize: "clamp(0.78rem, 1.35vw, 1.25rem)",
-                marginBottom: "0.5em",
-                textShadow: "0 1px 8px rgba(0,0,0,0.95)",
-              }}
-            >
-              <span style={{ letterSpacing: "0.45em", paddingLeft: "0.45em" }}>THE</span>
-              <span aria-hidden="true" style={{ color: "rgba(200,166,106,0.55)", fontSize: "0.7em" }}>✦</span>
-              <span style={{ letterSpacing: "0.45em", paddingLeft: "0.45em" }}>ORDER</span>
-              <span aria-hidden="true" style={{ color: "rgba(200,166,106,0.55)", fontSize: "0.7em" }}>✦</span>
-              <span style={{ letterSpacing: "0.45em", paddingLeft: "0.45em" }}>OF</span>
-            </div>
-
-            {/* Wordmark as image (provided distressed blackletter) */}
-            <img
-              src="/assets/wordmark-img.png"
-              alt="Nocturnal Nine"
-              draggable={false}
-              data-testid="hero-title"
-              className="block h-auto w-[460px] sm:w-[620px] md:w-[780px] lg:w-[900px] select-none"
-              style={{
-                filter:
-                  "brightness(1.18) saturate(1.15) contrast(1.05) drop-shadow(0 2px 18px rgba(200,166,106,0.18)) drop-shadow(0 1px 2px rgba(0,0,0,0.85))",
+                /* Positioned over the eye inside the 9-point star */
+                top: "20%",
+                left: "37%",
+                width: "26%",
+                height: "13%",
               }}
             />
           </div>
 
-          {/* Diamond divider beneath wordmark */}
+          {/* Grungy divider underneath the sigil (below LUX EX NOCTE) */}
           <div
-            className="rise mt-5 flex w-full justify-center"
-            style={{ animationDelay: "820ms" }}
-            data-testid="hero-divider"
+            className="rise mt-2 flex w-full justify-center"
+            style={{ animationDelay: "320ms" }}
+            data-testid="sigil-divider"
           >
             <img
               src={DIVIDER1}
               alt=""
               aria-hidden="true"
-              className="h-auto w-[260px] sm:w-[320px] md:w-[380px] opacity-90"
+              className="grunge-mask h-auto w-[230px] sm:w-[280px] md:w-[320px]"
+              style={{ opacity: 0.85 }}
+            />
+          </div>
+
+          {/* Eyebrow + Wordmark wrapper */}
+          <div
+            className="rise mt-6 inline-flex flex-col items-center sm:mt-7"
+            style={{ animationDelay: "560ms" }}
+          >
+            {/* THE ✦ ORDER ✦ OF — tighter centered, stronger weight */}
+            <div
+              className="font-body uppercase flex items-center justify-center"
+              data-testid="hero-eyebrow"
+              style={{
+                fontSize: "clamp(0.92rem, 1.5vw, 1.45rem)",
+                fontWeight: 600,
+                color: "#E6D7A6",
+                marginBottom: "0.05em",
+                gap: "0.9em",
+                textShadow: "0 1px 8px rgba(0,0,0,0.95)",
+              }}
+            >
+              <span style={{ letterSpacing: "0.28em", paddingLeft: "0.28em" }}>THE</span>
+              <span aria-hidden="true" style={{ color: "rgba(200,166,106,0.65)", fontSize: "0.7em" }}>✦</span>
+              <span style={{ letterSpacing: "0.28em", paddingLeft: "0.28em" }}>ORDER</span>
+              <span aria-hidden="true" style={{ color: "rgba(200,166,106,0.65)", fontSize: "0.7em" }}>✦</span>
+              <span style={{ letterSpacing: "0.28em", paddingLeft: "0.28em" }}>OF</span>
+            </div>
+
+            {/* Wordmark image */}
+            <img
+              src={WORDMARK}
+              alt="Nocturnal Nine"
+              draggable={false}
+              data-testid="hero-title"
+              className="block h-auto w-[440px] sm:w-[600px] md:w-[760px] lg:w-[880px] select-none"
+              style={{
+                marginTop: "-0.2em",
+                filter:
+                  "brightness(1.18) saturate(1.15) contrast(1.05) drop-shadow(0 2px 18px rgba(200,166,106,0.18)) drop-shadow(0 1px 2px rgba(0,0,0,0.85))",
+              }}
             />
           </div>
         </div>
 
-        {/* ============== MANIFESTO (still over hero bg, fading into black) ============== */}
+        {/* MANIFESTO */}
         <div
-          className="relative z-10 mx-auto flex w-full max-w-2xl flex-col items-center px-6 pt-2 pb-24 text-center sm:pb-28 md:pb-32"
+          className="relative z-10 mx-auto flex w-full max-w-2xl flex-col items-center px-6 pt-1 pb-16 text-center sm:pb-20 md:pb-24"
           data-testid="manifesto-section"
         >
           <h2
             className="font-body kerning-wide text-[0.95rem] uppercase text-gold-light sm:text-base md:text-[1.05rem] rise"
-            style={{
-              animationDelay: "1050ms",
-              textShadow: "0 1px 8px rgba(0,0,0,0.95)",
-            }}
+            style={{ animationDelay: "1050ms", textShadow: "0 1px 8px rgba(0,0,0,0.95)" }}
             data-testid="manifesto-headline"
           >
             From the shadows, we create.
           </h2>
 
-          <div
-            className="mt-5 flex justify-center rise"
-            style={{ animationDelay: "1200ms" }}
-          >
+          <div className="mt-4 flex justify-center rise" style={{ animationDelay: "1200ms" }}>
             <img
               src={DIVIDER3}
               alt=""
@@ -135,11 +174,8 @@ const LandingPage = () => {
           </div>
 
           <p
-            className="font-body rise mt-8 max-w-xl text-[0.95rem] leading-[2.05] text-gold-light/90 sm:text-[1rem] md:text-[1.05rem] md:leading-[2.15]"
-            style={{
-              animationDelay: "1350ms",
-              textShadow: "0 1px 6px rgba(0,0,0,0.9)",
-            }}
+            className="font-body rise mt-6 max-w-xl text-[0.95rem] leading-[2.05] text-gold-light/90 sm:text-[1rem] md:text-[1.05rem] md:leading-[2.15]"
+            style={{ animationDelay: "1350ms", textShadow: "0 1px 6px rgba(0,0,0,0.9)" }}
             data-testid="manifesto-body"
           >
             Nocturnal Nine is an independent creative house dedicated to artistry,
@@ -152,24 +188,32 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* ============== MAILING LIST ============== */}
+      {/* ============== MAILING LIST (aged parchment) ============== */}
       <section
-        className="relative w-full overflow-hidden bg-black px-6 pb-32 pt-2 sm:pb-40"
+        className="relative w-full overflow-hidden bg-black px-6 pb-20 pt-2 sm:pb-24"
         data-testid="email-section"
         style={{ isolation: "isolate" }}
       >
-        {/* Mysterious darker mist drifting behind the mailing list */}
         <div className="mist-dark mist-dark-a" aria-hidden="true" />
         <div className="mist-dark mist-dark-b" aria-hidden="true" />
         <div className="relative z-10 mx-auto w-full max-w-2xl">
-          <div className="ml-frame relative px-6 py-12 sm:px-12 sm:py-14 md:px-16 md:py-16">
+          <div
+            className="ml-frame relative px-7 py-16 sm:px-12 sm:py-18 md:px-16 md:py-20"
+            style={{
+              backgroundImage:
+                "radial-gradient(ellipse at 50% 40%, rgba(80,55,30,0.55) 0%, rgba(28,18,10,0.95) 70%, rgba(10,6,4,1) 100%), url(/assets/paper-texture.jpg)",
+              backgroundSize: "cover, cover",
+              backgroundPosition: "center, center",
+              backgroundBlendMode: "multiply, normal",
+            }}
+          >
+            <div className="ml-frame-inner" />
             <span className="ml-corner tl" />
             <span className="ml-corner tr" />
             <span className="ml-corner bl" />
             <span className="ml-corner br" />
 
-            {/* Ornate divider at top of box */}
-            <div className="flex justify-center">
+            <div className="relative flex justify-center">
               <img
                 src={DIVIDER2}
                 alt=""
@@ -178,21 +222,19 @@ const LandingPage = () => {
               />
             </div>
 
-            {/* Heading */}
             <h3
-              className="font-display distressed gold-foil mt-6 text-center text-[2rem] sm:text-[2.4rem] md:text-[2.8rem]"
+              className="font-display distressed gold-foil relative mt-6 text-center text-[2rem] sm:text-[2.4rem] md:text-[2.8rem]"
               data-testid="email-heading"
               style={{
                 filter:
-                  "drop-shadow(0 2px 12px rgba(200,166,106,0.12)) drop-shadow(0 1px 2px rgba(0,0,0,0.75))",
+                  "drop-shadow(0 2px 12px rgba(200,166,106,0.12)) drop-shadow(0 1px 2px rgba(0,0,0,0.85))",
               }}
             >
               Join The Circle
             </h3>
 
-            {/* Caption (Cinzel) */}
             <p
-              className="font-body kerning-wide mt-4 text-center text-[0.7rem] uppercase text-gold-light/80 sm:text-xs md:text-[0.78rem]"
+              className="font-body kerning-wide relative mt-4 text-center text-[0.7rem] uppercase text-gold-light/85 sm:text-xs md:text-[0.78rem]"
               data-testid="email-caption"
             >
               Subscribe to our mailing list for
@@ -200,10 +242,9 @@ const LandingPage = () => {
               News, releases, mysteries &amp; exclusive updates.
             </p>
 
-            {/* Form */}
             <form
               onSubmit={handleSubmit}
-              className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-stretch sm:gap-0"
+              className="relative mt-9 flex flex-col gap-3 sm:flex-row sm:items-stretch sm:gap-0"
               data-testid="email-form"
               noValidate
             >
@@ -229,9 +270,8 @@ const LandingPage = () => {
               </button>
             </form>
 
-            {/* Status */}
             <div
-              className="mt-4 min-h-[1.25rem] text-center text-[0.7rem] uppercase tracking-[0.32em]"
+              className="relative mt-4 min-h-[1.25rem] text-center text-[0.7rem] uppercase tracking-[0.32em]"
               aria-live="polite"
             >
               {submitted && (
@@ -241,7 +281,6 @@ const LandingPage = () => {
               )}
             </div>
 
-            {/* Compass — overlaps bottom of frame */}
             <img
               src={COMPASS}
               alt=""
@@ -260,11 +299,10 @@ const LandingPage = () => {
 
       {/* ============== FOOTER ============== */}
       <footer
-        className="relative w-full bg-black px-6 pb-16 pt-6"
+        className="relative w-full bg-black px-6 pb-12 pt-4"
         data-testid="footer-section"
       >
         <div className="mx-auto flex w-full max-w-3xl flex-col items-center text-center">
-          {/* Quote with sparkles on each side (per reference) */}
           <div className="flex items-center justify-center gap-5 sm:gap-7" data-testid="footer-quote-row">
             <span aria-hidden="true" style={{ color: "rgba(200,166,106,0.7)", fontSize: "1.4rem" }}>✦</span>
             <p
@@ -279,8 +317,7 @@ const LandingPage = () => {
             <span aria-hidden="true" style={{ color: "rgba(200,166,106,0.7)", fontSize: "1.4rem" }}>✦</span>
           </div>
 
-          {/* Small divider */}
-          <div className="mt-8 flex justify-center">
+          <div className="mt-6 flex justify-center">
             <img
               src={DIVIDER3}
               alt=""
@@ -289,50 +326,62 @@ const LandingPage = () => {
             />
           </div>
 
-          {/* Socials */}
-          <div
-            className="mt-8 flex items-center justify-center gap-12 sm:gap-14"
-            data-testid="footer-socials"
-          >
-            <a
-              href="https://instagram.com/nocturnalnine"
-              aria-label="Instagram"
-              target="_blank"
-              rel="noopener noreferrer"
-              data-testid="social-instagram"
-              className="social-ico"
-            >
+          <div className="mt-6 flex items-center justify-center gap-12 sm:gap-14" data-testid="footer-socials">
+            <a href="https://instagram.com/nocturnalnine" aria-label="Instagram" target="_blank" rel="noopener noreferrer" data-testid="social-instagram" className="social-ico">
               <Instagram strokeWidth={1.3} className="h-6 w-6 sm:h-7 sm:w-7" />
             </a>
-            <a
-              href="https://x.com/nocturnalnine"
-              aria-label="X (Twitter)"
-              target="_blank"
-              rel="noopener noreferrer"
-              data-testid="social-x"
-              className="social-ico"
-            >
+            <a href="https://x.com/nocturnalnine" aria-label="X (Twitter)" target="_blank" rel="noopener noreferrer" data-testid="social-x" className="social-ico">
               <Twitter strokeWidth={1.3} className="h-6 w-6 sm:h-7 sm:w-7" />
             </a>
-            <a
-              href="mailto:contact@nocturnalnine.com"
-              aria-label="Email"
-              data-testid="social-mail"
-              className="social-ico"
-            >
+            <a href="mailto:contact@nocturnalnine.com" aria-label="Email" data-testid="social-mail" className="social-ico">
               <Mail strokeWidth={1.3} className="h-6 w-6 sm:h-7 sm:w-7" />
             </a>
           </div>
 
-          {/* Copyright */}
           <p
-            className="font-body kerning-widest mt-10 text-[0.65rem] uppercase text-gold-light/60 sm:text-xs"
+            className="font-body kerning-widest mt-8 text-[0.65rem] uppercase text-gold-light/60 sm:text-xs"
             data-testid="copyright"
           >
             Nocturnal Nine © MMXXV
           </p>
         </div>
       </footer>
+
+      {/* ============== VIDEO MODAL ============== */}
+      {videoOpen && (
+        <div
+          className="video-modal"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Nocturnal Nine — sight"
+          data-testid="video-modal"
+          onClick={() => setVideoOpen(false)}
+        >
+          <div
+            className="video-modal-stage"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              className="video-modal-close"
+              onClick={() => setVideoOpen(false)}
+              aria-label="Close"
+              data-testid="video-modal-close"
+            >
+              ×
+            </button>
+            <video
+              ref={videoRef}
+              src="/assets/intro-video.mp4"
+              controls
+              playsInline
+              data-testid="intro-video"
+              preload="metadata"
+            />
+            <div className="video-modal-loading">awakening…</div>
+          </div>
+        </div>
+      )}
     </main>
   );
 };

@@ -143,21 +143,71 @@ body {
   animation: rise 1500ms cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
 }
 
-/* ============ Mailing list box ============ */
+/* ============ Mailing list box (aged parchment scroll) ============ */
 .ml-frame {
   position: relative;
-  background: rgba(11, 11, 13, 0.78);
-  border: 1px solid rgba(200, 166, 106, 0.45);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
+  /* Dark aged parchment: dark sepia base; paper texture applied inline via JSX */
+  background-color: #1a120a;
+  border: 1px solid rgba(200, 166, 106, 0.55);
+  border-radius: 6px;
+  box-shadow:
+    0 30px 60px -20px rgba(0,0,0,0.8),
+    inset 0 8px 18px rgba(0,0,0,0.55),
+    inset 0 -8px 18px rgba(0,0,0,0.55),
+    inset 0 0 80px rgba(40,25,10,0.6);
+  filter: contrast(1.04) saturate(0.9);
 }
-/* Inner thin frame */
+/* Top rolled-up edge of the parchment scroll */
 .ml-frame::before {
   content: "";
   position: absolute;
-  inset: 10px;
-  border: 1px solid rgba(200, 166, 106, 0.25);
+  inset: 6px 6px auto 6px;
+  height: 22px;
   pointer-events: none;
+  z-index: 2;
+  border-radius: 16px / 12px;
+  background:
+    linear-gradient(180deg,
+      #2c1c0d 0%,
+      #4a2f17 35%,
+      #6a4423 55%,
+      #3d2611 90%,
+      #1c1108 100%);
+  border: 1px solid rgba(200,166,106,0.30);
+  box-shadow:
+    0 4px 10px rgba(0,0,0,0.6),
+    inset 0 1px 0 rgba(230,200,150,0.18),
+    inset 0 -2px 4px rgba(0,0,0,0.55);
+}
+/* Bottom rolled-up edge */
+.ml-frame::after {
+  content: "";
+  position: absolute;
+  inset: auto 6px 6px 6px;
+  height: 22px;
+  pointer-events: none;
+  z-index: 2;
+  border-radius: 16px / 12px;
+  background:
+    linear-gradient(0deg,
+      #2c1c0d 0%,
+      #4a2f17 35%,
+      #6a4423 55%,
+      #3d2611 90%,
+      #1c1108 100%);
+  border: 1px solid rgba(200,166,106,0.30);
+  box-shadow:
+    0 -4px 10px rgba(0,0,0,0.6),
+    inset 0 -1px 0 rgba(230,200,150,0.18),
+    inset 0 2px 4px rgba(0,0,0,0.55);
+}
+/* Inner thin frame on the parchment */
+.ml-frame-inner {
+  position: absolute;
+  inset: 32px 18px;
+  border: 1px solid rgba(200, 166, 106, 0.22);
+  pointer-events: none;
+  z-index: 1;
 }
 /* Corner diamonds */
 .ml-corner {
@@ -165,14 +215,14 @@ body {
   width: 14px;
   height: 14px;
   border: 1px solid rgba(200, 166, 106, 0.7);
-  background: #000;
+  background: #1a120a;
   transform: rotate(45deg);
-  z-index: 2;
+  z-index: 3;
 }
-.ml-corner.tl { top: -7px; left: -7px; }
-.ml-corner.tr { top: -7px; right: -7px; }
-.ml-corner.bl { bottom: -7px; left: -7px; }
-.ml-corner.br { bottom: -7px; right: -7px; }
+.ml-corner.tl { top: 26px; left: 12px; }
+.ml-corner.tr { top: 26px; right: 12px; }
+.ml-corner.bl { bottom: 26px; left: 12px; }
+.ml-corner.br { bottom: 26px; right: 12px; }
 
 /* ============ Email input + join button ============ */
 .input-ritual {
@@ -346,3 +396,114 @@ body {
   color: var(--gold-light);
   transform: translateY(-2px);
 }
+
+/* ============ Sigil eye click target ============ */
+.eye-button {
+  position: absolute;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 0;
+  cursor: pointer;
+  z-index: 5;
+  -webkit-tap-highlight-color: transparent;
+  transition: box-shadow 600ms ease, background-color 600ms ease;
+}
+.eye-button:hover,
+.eye-button:focus-visible {
+  background-color: rgba(255, 235, 180, 0.07);
+  animation: eye-shimmer 1.7s ease-in-out infinite;
+}
+@keyframes eye-shimmer {
+  0%, 100% {
+    box-shadow:
+      0 0 16px 3px rgba(230, 215, 166, 0.35),
+      inset 0 0 12px 2px rgba(230, 215, 166, 0.28);
+  }
+  50% {
+    box-shadow:
+      0 0 38px 10px rgba(255, 245, 210, 0.65),
+      inset 0 0 24px 5px rgba(255, 245, 210, 0.5);
+  }
+}
+
+/* ============ Grungy divider mask ============ */
+.grunge-mask {
+  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='80' preserveAspectRatio='none'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' seed='9' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 4 -1.1'/></filter><rect width='100%' height='100%' fill='white' filter='url(%23n)'/></svg>");
+          mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='80' preserveAspectRatio='none'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' seed='9' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 4 -1.1'/></filter><rect width='100%' height='100%' fill='white' filter='url(%23n)'/></svg>");
+  -webkit-mask-size: 100% 100%;
+          mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+          mask-repeat: no-repeat;
+}
+
+/* ============ Video modal ============ */
+.video-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(14px) brightness(0.55);
+  -webkit-backdrop-filter: blur(14px) brightness(0.55);
+  animation: video-fade-in 480ms ease forwards;
+  padding: 4vw;
+}
+@keyframes video-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.video-modal-stage {
+  position: relative;
+  width: min(100%, 1100px);
+  aspect-ratio: 16 / 9;
+  background: #000;
+  border: 1px solid rgba(200, 166, 106, 0.55);
+  box-shadow:
+    0 40px 80px -10px rgba(0, 0, 0, 0.9),
+    0 0 60px -10px rgba(200, 166, 106, 0.35);
+}
+.video-modal-stage video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: #000;
+}
+.video-modal-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(230, 215, 166, 0.8);
+  font-family: "Cinzel", serif;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  font-size: clamp(0.7rem, 1.1vw, 0.95rem);
+  pointer-events: none;
+}
+.video-modal-close {
+  position: absolute;
+  top: -42px;
+  right: 0;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(200, 166, 106, 0.55);
+  background: transparent;
+  color: rgba(230, 215, 166, 0.9);
+  font-family: "Cinzel", serif;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 280ms ease, color 280ms ease, border-color 280ms ease;
+}
+.video-modal-close:hover {
+  background: rgba(200, 166, 106, 0.15);
+  color: #fff;
+  border-color: rgba(200, 166, 106, 0.9);
+}
+
+body.modal-open { overflow: hidden; }
