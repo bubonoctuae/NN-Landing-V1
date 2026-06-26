@@ -78,7 +78,7 @@ const LandingPage = () => {
               draggable={false}
               className="sigil-breathe block w-[218px] sm:w-[264px] md:w-[312px] lg:w-[348px] select-none"
             />
-            {/* Eye area — clickable, glows on hover */}
+            {/* Eye area — clickable, glows on hover. Positioned precisely on the eye. */}
             <button
               type="button"
               aria-label="Open the inner sight"
@@ -86,11 +86,11 @@ const LandingPage = () => {
               className="eye-button"
               onClick={() => setVideoOpen(true)}
               style={{
-                /* Positioned over the eye inside the 9-point star */
-                top: "20%",
-                left: "37%",
-                width: "26%",
-                height: "13%",
+                /* Centered on the eye inside the 9-point star */
+                top: "17.5%",
+                left: "41%",
+                width: "18%",
+                height: "9%",
               }}
             />
           </div>
@@ -106,16 +106,19 @@ const LandingPage = () => {
               alt=""
               aria-hidden="true"
               className="grunge-mask h-auto w-[230px] sm:w-[280px] md:w-[320px]"
-              style={{ opacity: 0.85 }}
+              style={{
+                opacity: 0.9,
+                filter: "saturate(1.45) hue-rotate(-10deg) brightness(1.05)",
+              }}
             />
           </div>
 
           {/* Eyebrow + Wordmark wrapper */}
           <div
-            className="rise mt-6 inline-flex flex-col items-center sm:mt-7"
+            className="rise mt-5 inline-flex flex-col items-center sm:mt-6"
             style={{ animationDelay: "560ms" }}
           >
-            {/* THE ✦ ORDER ✦ OF — tighter centered, stronger weight */}
+            {/* THE ✦ ORDER ✦ OF */}
             <div
               className="font-body uppercase flex items-center justify-center"
               data-testid="hero-eyebrow"
@@ -123,19 +126,19 @@ const LandingPage = () => {
                 fontSize: "clamp(0.92rem, 1.5vw, 1.45rem)",
                 fontWeight: 600,
                 color: "#E6D7A6",
-                marginBottom: "0.05em",
+                marginBottom: "-0.05em",
                 gap: "0.9em",
                 textShadow: "0 1px 8px rgba(0,0,0,0.95)",
               }}
             >
               <span style={{ letterSpacing: "0.28em", paddingLeft: "0.28em" }}>THE</span>
-              <span aria-hidden="true" style={{ color: "rgba(200,166,106,0.65)", fontSize: "0.7em" }}>✦</span>
+              <span aria-hidden="true" style={{ color: "rgba(220,170,90,0.75)", fontSize: "0.7em" }}>✦</span>
               <span style={{ letterSpacing: "0.28em", paddingLeft: "0.28em" }}>ORDER</span>
-              <span aria-hidden="true" style={{ color: "rgba(200,166,106,0.65)", fontSize: "0.7em" }}>✦</span>
+              <span aria-hidden="true" style={{ color: "rgba(220,170,90,0.75)", fontSize: "0.7em" }}>✦</span>
               <span style={{ letterSpacing: "0.28em", paddingLeft: "0.28em" }}>OF</span>
             </div>
 
-            {/* Wordmark image */}
+            {/* Wordmark image — pulled up tight to eyebrow */}
             <img
               src={WORDMARK}
               alt="Nocturnal Nine"
@@ -143,17 +146,18 @@ const LandingPage = () => {
               data-testid="hero-title"
               className="block h-auto w-[440px] sm:w-[600px] md:w-[760px] lg:w-[880px] select-none"
               style={{
-                marginTop: "-0.2em",
+                marginTop: "-0.55em",
+                marginBottom: "-0.4em",
                 filter:
-                  "brightness(1.18) saturate(1.15) contrast(1.05) drop-shadow(0 2px 18px rgba(200,166,106,0.18)) drop-shadow(0 1px 2px rgba(0,0,0,0.85))",
+                  "brightness(1.2) saturate(1.2) contrast(1.05) hue-rotate(-6deg) drop-shadow(0 2px 18px rgba(200,140,70,0.20)) drop-shadow(0 1px 2px rgba(0,0,0,0.85))",
               }}
             />
           </div>
         </div>
 
-        {/* MANIFESTO */}
+        {/* MANIFESTO — tight to wordmark */}
         <div
-          className="relative z-10 mx-auto flex w-full max-w-2xl flex-col items-center px-6 pt-1 pb-16 text-center sm:pb-20 md:pb-24"
+          className="relative z-10 mx-auto flex w-full max-w-2xl flex-col items-center px-6 pb-14 pt-0 text-center sm:pb-18 md:pb-22"
           data-testid="manifesto-section"
         >
           <h2
@@ -169,7 +173,8 @@ const LandingPage = () => {
               src={DIVIDER3}
               alt=""
               aria-hidden="true"
-              className="h-auto w-[160px] sm:w-[200px] opacity-85"
+              className="h-auto w-[160px] sm:w-[200px] opacity-90"
+              style={{ filter: "saturate(1.45) hue-rotate(-10deg) brightness(1.05)" }}
             />
           </div>
 
@@ -219,6 +224,7 @@ const LandingPage = () => {
                 alt=""
                 aria-hidden="true"
                 className="h-auto w-[260px] sm:w-[320px] md:w-[360px] opacity-95"
+                style={{ filter: "saturate(1.45) hue-rotate(-10deg) brightness(1.05)" }}
               />
             </div>
 
@@ -290,7 +296,7 @@ const LandingPage = () => {
               data-testid="compass-ornament"
               style={{
                 filter:
-                  "drop-shadow(0 4px 18px rgba(0,0,0,0.85)) drop-shadow(0 0 20px rgba(200,166,106,0.18))",
+                  "saturate(1.45) hue-rotate(-10deg) brightness(1.05) drop-shadow(0 4px 18px rgba(0,0,0,0.85)) drop-shadow(0 0 20px rgba(220,140,70,0.2))",
               }}
             />
           </div>
@@ -322,7 +328,8 @@ const LandingPage = () => {
               src={DIVIDER3}
               alt=""
               aria-hidden="true"
-              className="h-auto w-[150px] sm:w-[180px] opacity-70"
+              className="h-auto w-[150px] sm:w-[180px] opacity-80"
+              style={{ filter: "saturate(1.45) hue-rotate(-10deg) brightness(1.05)" }}
             />
           </div>
 
