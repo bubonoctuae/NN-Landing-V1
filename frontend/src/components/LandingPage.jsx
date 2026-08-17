@@ -168,27 +168,30 @@ const LandingPage = () => {
             From the shadows, we create.
           </h2>
 
-          <div className="mt-4 flex justify-center rise" style={{ animationDelay: "1200ms" }}>
-            <img
-              src={DIVIDER3}
-              alt=""
-              aria-hidden="true"
-              className="h-auto w-[160px] sm:w-[200px] opacity-90"
-              style={{ filter: "saturate(1.45) hue-rotate(-10deg) brightness(1.05)" }}
-            />
-          </div>
+<div className="mt-4 flex justify-center rise" style={{ animationDelay: "1200ms" }}>
+  <img
+    src={DIVIDER3}
+    alt=""
+    aria-hidden="true"
+    className="h-auto w-[160px] sm:w-[200px] opacity-90"
+    style={{ filter: "saturate(1.45) hue-rotate(-10deg) brightness(1.05)" }}
+  />
+</div>
 
-          <p
-            className="font-quote rise mt-6 max-w-xl text-[1.05rem] leading-[1.8] text-gold-light/90 sm:text-[1.15rem] md:text-[1.25rem] md:leading-[1.9]"
-            style={{ animationDelay: "1350ms", textShadow: "0 1px 6px rgba(0,0,0,0.9)" }}
-            data-testid="manifesto-body"
-          >
-            Nocturnal Nine is a creative order devoted to art,
-            mysticism and the strange beauty hidden in the world.
-            <br />
-            <br />
-            We create what lingers between shadow and light.
-          </p>
+<p
+  className="manifesto-text rise mt-6 max-w-xl text-[1.05rem] leading-[1.8] text-gold-light/90 sm:text-[1.15rem] md:text-[1.25rem] md:leading-[1.9]"
+  style={{
+    animationDelay: "1350ms",
+    textShadow: "0 1px 6px rgba(0,0,0,0.9)"
+  }}
+  data-testid="manifesto-body"
+>
+  Nocturnal Nine is a creative order devoted to art,
+  mysticism and the strange beauty hidden in the world.
+  <br />
+  <br />
+  We create what lingers between shadow and light.
+</p>
         </div>
       </section>
 
