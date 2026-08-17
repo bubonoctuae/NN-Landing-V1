@@ -183,12 +183,11 @@ const LandingPage = () => {
             style={{ animationDelay: "1350ms", textShadow: "0 1px 6px rgba(0,0,0,0.9)" }}
             data-testid="manifesto-body"
           >
-            Nocturnal Nine is an independent creative house dedicated to artistry,
-            mysticism, visual storytelling and timeless expression.
+            Nocturnal Nine is a creative order devoted to art,
+            mysticism and the strange beauty hidden in the world.
             <br />
-            Rooted in darkness. Driven by purpose.
             <br />
-            Guided by the light that rises from within.
+            We create what lingers between shadow and light.
           </p>
         </div>
       </section>
