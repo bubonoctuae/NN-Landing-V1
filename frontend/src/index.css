@@ -302,8 +302,8 @@ body {
   position: absolute;
   inset: -12% -30%;
   pointer-events: none;
-  z-index: 1;
-  filter: blur(46px);
+  z-index: 2;
+  filter: blur(32px);
   mix-blend-mode: screen;
   opacity: 0;
   will-change: opacity, transform;
