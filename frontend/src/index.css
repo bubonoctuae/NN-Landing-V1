@@ -58,6 +58,12 @@ body {
   font-family: "Cinzel", serif;
 }
 
+.manifesto-text {
+  font-family: "Pirata One", "Cinzel", serif;
+  font-style: normal;
+  font-weight: 400;
+}
+
 .kerning-wide   { letter-spacing: 0.32em; }
 .kerning-wider  { letter-spacing: 0.45em; }
 .kerning-widest { letter-spacing: 0.55em; }
