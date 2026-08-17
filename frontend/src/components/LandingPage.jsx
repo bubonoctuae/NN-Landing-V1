@@ -179,7 +179,7 @@ const LandingPage = () => {
           </div>
 
           <p
-            className="font-body rise mt-6 max-w-xl text-[0.95rem] leading-[2.05] text-gold-light/90 sm:text-[1rem] md:text-[1.05rem] md:leading-[2.15]"
+            className="font-quote rise mt-6 max-w-xl text-[1.05rem] leading-[1.8] text-gold-light/90 sm:text-[1.15rem] md:text-[1.25rem] md:leading-[1.9]"
             style={{ animationDelay: "1350ms", textShadow: "0 1px 6px rgba(0,0,0,0.9)" }}
             data-testid="manifesto-body"
           >
